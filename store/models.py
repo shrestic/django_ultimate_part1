@@ -21,7 +21,7 @@ class Product(models.Model):
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
-    last_updated = models.DateTimeField(auto_now=True)
+    last_update = models.DateTimeField(auto_now=True)
     promotions = models.ManyToManyField(Promotion)
 
     def __str__(self):
@@ -43,8 +43,8 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=255)
-    birthdate = models.DateField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    birth_date = models.DateField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     membership = models.CharField(
         max_length=1,
         choices=MEMBERSHIP_CHOICES,

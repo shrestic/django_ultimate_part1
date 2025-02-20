@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
                 ("last_name", models.CharField(max_length=255)),
                 ("email", models.EmailField(max_length=254, unique=True)),
                 ("phone", models.CharField(max_length=255)),
-                ("birthdate", models.DateField(null=True)),
+                ("birth_date", models.DateField(null=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 (
                     "membership",
@@ -103,9 +103,7 @@ class Migration(migrations.Migration):
                 ("zip", models.CharField(max_length=255)),
                 (
                     "customer",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="store.customer"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="store.customer"),
                 ),
             ],
         ),
@@ -132,9 +130,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "customer",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.PROTECT, to="store.customer"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to="store.customer"),
                 ),
             ],
         ),
@@ -154,7 +150,7 @@ class Migration(migrations.Migration):
                 ("description", models.TextField()),
                 ("price", models.DecimalField(decimal_places=2, max_digits=6)),
                 ("inventory", models.IntegerField()),
-                ("last_updated", models.DateTimeField(auto_now=True)),
+                ("last_update", models.DateTimeField(auto_now=True)),
                 (
                     "collection",
                     models.ForeignKey(
@@ -181,15 +177,11 @@ class Migration(migrations.Migration):
                 ("unit_price", models.DecimalField(decimal_places=2, max_digits=6)),
                 (
                     "order",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.PROTECT, to="store.order"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to="store.order"),
                 ),
                 (
                     "product",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.PROTECT, to="store.product"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to="store.product"),
                 ),
             ],
         ),
@@ -218,15 +210,11 @@ class Migration(migrations.Migration):
                 ("quantity", models.PositiveIntegerField()),
                 (
                     "cart",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="store.cart"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="store.cart"),
                 ),
                 (
                     "product",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="store.product"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="store.product"),
                 ),
             ],
         ),
