@@ -29,14 +29,14 @@ class Product(models.Model):
 
 
 class Customer(models.Model):
-    MEMBERSHIP_FREE = "F"
-    MEMBERSHIP_BASIC = "B"
-    MEMBERSHIP_PREMIUM = "P"
+    MEMBERSHIP_FREE = "B"
+    MEMBERSHIP_BASIC = "S"
+    MEMBERSHIP_PREMIUM = "G"
 
     MEMBERSHIP_CHOICES = [
-        (MEMBERSHIP_FREE, "Free"),
-        (MEMBERSHIP_BASIC, "Basic"),
-        (MEMBERSHIP_PREMIUM, "Premium"),
+        (MEMBERSHIP_FREE, "Bronze"),
+        (MEMBERSHIP_BASIC, "Silver"),
+        (MEMBERSHIP_PREMIUM, "Gold"),
     ]
 
     first_name = models.CharField(max_length=255)
@@ -52,7 +52,7 @@ class Customer(models.Model):
     )
 
     class Meta:
-        db_table = "store_customers"
+        db_table = "store_customer"
         indexes = [
             models.Index(fields=["last_name", "first_name"]),
         ]
@@ -62,21 +62,21 @@ class Customer(models.Model):
 
 
 class Order(models.Model):
-    PAYMENT_PENDING = "P"
-    PAYMENT_COMPLETE = "C"
-    PAYMENT_FAILED = "F"
+    payment_status_PENDING = "P"
+    payment_status_COMPLETE = "C"
+    payment_status_FAILED = "F"
 
-    PAYMENT_CHOICES = [
-        (PAYMENT_PENDING, "Pending"),
-        (PAYMENT_COMPLETE, "Complete"),
-        (PAYMENT_FAILED, "Failed"),
+    payment_status_CHOICES = [
+        (payment_status_PENDING, "Pending"),
+        (payment_status_COMPLETE, "Complete"),
+        (payment_status_FAILED, "Failed"),
     ]
 
     placed_at = models.DateTimeField(auto_now_add=True)
-    payment = models.CharField(
+    payment_status = models.CharField(
         max_length=1,
-        choices=PAYMENT_CHOICES,
-        default=PAYMENT_PENDING,
+        choices=payment_status_CHOICES,
+        default=payment_status_PENDING,
     )
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 

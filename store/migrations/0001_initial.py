@@ -121,7 +121,7 @@ class Migration(migrations.Migration):
                 ),
                 ("placed_at", models.DateTimeField(auto_now_add=True)),
                 (
-                    "payment",
+                    "payment_status",
                     models.CharField(
                         choices=[("P", "Pending"), ("C", "Complete"), ("F", "Failed")],
                         default="P",
