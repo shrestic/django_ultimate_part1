@@ -3,12 +3,15 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product, OrderItem
 from django.db.models import Q, F
+from django.shortcuts import render
+from store.models import Product
 
 
 def say_hello(request):
-    # queryset = Product.objects.value("id", "title", "collection__title")
-    # queryset = Product.objects.values_list("id", "title", "collection__title")
-    queryset = Product.objects.filter(id__in=OrderItem.objects.values("product_id").distinct()).order_by("title")
-    # queryset = OrderItem.objects.values("product_id").distinct()
+    # Use only() to restrict the fields retrieved from the database
+    queryset = Product.objects.only("id", "title")
+
+    # If 'description' is accessed later, ensure it was included in only() or use defer() carefully
+    # queryset = Product.objects.defer("description")  # This is redundant after only()
 
     return render(request, "hello.html", {"name": "Mosh", "products": list(queryset)})

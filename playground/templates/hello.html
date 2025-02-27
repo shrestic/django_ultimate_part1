@@ -7,8 +7,9 @@
     {% endif %}
     <ul>
       {% for product in products %}
-      <li>{{ product.title }}</li>
+      {% comment %} <li>{{ product.title }}</li> {% endcomment %}
       {% comment %} <li>{{ product }}</li> {% endcomment %}
+      <li>{{ product.title }} ${{ product.unit_price }}</li>
 
       {% endfor %}
     </ul>
