@@ -3,6 +3,11 @@ from django.db import models
 # Create your models here.
 
 
+class Promotion(models.Model):
+    description = models.CharField(max_length=255)
+    discount = models.FloatField()
+
+
 class Collections(models.Model):
     title = models.CharField(max_length=255)
 
@@ -14,6 +19,7 @@ class Product(models.Model):
     inventory = models.IntegerField()
     last_updated = models.DateTimeField(auto_now_add=True)
     collections = models.ForeignKey(Collections, on_delete=models.PROTECT)
+    promotions = models.ManyToManyField(Promotion)
 
 
 class Customer(models.Model):
@@ -47,14 +53,17 @@ class Order(models.Model):
     payment_status = models.CharField(max_length=1, choices=PAYMENT_STATUS_CHOICES, default=PAYMENT_STATUS_PENDING)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 
+
 class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
+
 class CartItem(models.Model):
     """
     The cart field is a ForeignKey linking CartItem to Cart, meaning each CartItem belongs to one Cart, but a Cart can have multiple CartItems.
     on_delete=models.CASCADE: If a Cart is deleted, all related CartItem instances will also be deleted. This makes sense because when a shopping cart is removed, its items should be removed too.
     """
+
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     """
     The product field is a ForeignKey linking CartItem to Product, meaning each CartItem is associated with one Product, but a Product can be in multiple CartItems (i.e., in different carts).
@@ -63,11 +72,13 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
+
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
