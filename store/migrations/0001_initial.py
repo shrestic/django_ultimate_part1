@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name="Collections",
+            name="Collection",
             fields=[
                 (
                     "id",
@@ -156,7 +156,7 @@ class Migration(migrations.Migration):
                     "collections",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.PROTECT,
-                        to="store.collections",
+                        to="store.collection",
                     ),
                 ),
                 ("promotions", models.ManyToManyField(to="store.promotion")),
@@ -191,7 +191,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AddField(
-            model_name="collections",
+            model_name="collection",
             name="featured_product",
             field=models.ForeignKey(
                 null=True,

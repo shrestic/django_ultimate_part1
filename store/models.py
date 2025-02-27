@@ -8,7 +8,7 @@ class Promotion(models.Model):
     discount = models.FloatField()
 
 
-class Collections(models.Model):
+class Collection(models.Model):
     title = models.CharField(max_length=255)
     featured_product = models.ForeignKey("Product", on_delete=models.SET_NULL, null=True, related_name="+")
 
@@ -20,7 +20,7 @@ class Product(models.Model):
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
     last_updated = models.DateTimeField(auto_now_add=True)
-    collections = models.ForeignKey(Collections, on_delete=models.PROTECT)
+    collections = models.ForeignKey(Collection, on_delete=models.PROTECT)
     promotions = models.ManyToManyField(Promotion)
 
 
