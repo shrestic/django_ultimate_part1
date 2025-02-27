@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-uc4fez=wxuvdgr&93qf$9gc_qp(v@+6xc@_gm#ocorvna_4)67"
+SECRET_KEY = "django-insecure-9a1fyw4vq1yrhiazcvb3ak041bp^+_^j^!2hau4&d@*n&=8oek"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,9 +38,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "playground",
-    "debug_toolbar",
-    "store",
-    "tags",
 ]
 
 MIDDLEWARE = [
@@ -51,13 +48,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
-]
-
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
 ]
 
 ROOT_URLCONF = "storefront.urls"
@@ -86,12 +76,8 @@ WSGI_APPLICATION = "storefront.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "storefront",
-        "USER": "postgres",
-        "PASSWORD": "Python3==",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
