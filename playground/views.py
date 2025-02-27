@@ -1,18 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product, Order
 from django.db.models import Q, F
 from django.shortcuts import render
+from django.db.models.aggregates import Count, Sum, Avg, Max, Min
 from store.models import Product
+from store.models import Product, Order
 
 
 def say_hello(request):
-    # queryset = Product.objects.select_related("collection__someOtherField").all()
-    # queryset = Product.objects.prefetch_related("promotions").select_related("collection").all()
-    queryset = (
-        Order.objects.prefetch_related("orderitem_set__product").select_related("customer").order_by("-placed_at")[:5]
+    result = Product.objects.filter(collection__id=1).aggregate(
+        count=Count("id"),
+        min_price=Min("unit_price"),
+        max_price=Max("unit_price"),
+        avg_price=Avg("unit_price"),
+        sum_price=Sum("unit_price"),
     )
-
-    # return render(request, "hello.html", {"name": "Mosh", "products": list(queryset)})
-    return render(request, "hello.html", {"name": "Mosh", "orders": list(queryset)})
+    return render(request, "hello.html", {"name": "Mosh", "result": result})
