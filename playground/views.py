@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db import transaction
+from django.db import transaction, connection
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F, Value, Func, ExpressionWrapper, DecimalField
@@ -11,23 +11,15 @@ from store.models import Collection, OrderItem, Product, Order, Customer
 from tags.models import TaggedItem
 
 
-# SELECT setval('store_order_id_seq', COALESCE((SELECT MAX(id) FROM store_order), 1), true);
-# SELECT setval('store_orderitem_id_seq', COALESCE((SELECT MAX(id) FROM store_orderitem), 1), true);
-
-
 # @transaction.atomic
 def say_hello(request):
+    # queryset = Product.objects.raw("SELECT * FROM store_product")
+    # cursor = connection.cursor()
+    # cursor.execute("SELECT * FROM store_product")
+    # queryset = cursor.fetchall()
+    
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM store_product")
+        queryset = cursor.fetchall()
 
-    with transaction.atomic():
-        order = Order()
-        order.customer_id = 1
-        order.save()
-
-        item = OrderItem()
-        item.order = order
-        item.product_id = 1
-        item.quantity = 2
-        item.unit_price = 10
-        item.save()
-
-        return render(request, "hello.html", {"name": "Mosh"})
+    return render(request, "hello.html", {"name": "Mosh", "result": list(queryset)})
