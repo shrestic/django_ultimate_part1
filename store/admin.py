@@ -1,6 +1,8 @@
-from django.contrib import admin
 from . import models
 from django.db.models import Count
+from django.contrib import admin
+from django.utils.html import format_html
+from django.urls import reverse
 
 
 # Register your models here.
@@ -17,7 +19,8 @@ class CollectionAdmin(admin.ModelAdmin):
     # admin.display is a decorator that allows you to define a custom method on the admin class
     @admin.display(ordering="products_count")
     def products_count(self, collection: models.Collection):
-        return collection.products_count
+        url = reverse("admin:store_product_changelist") + "?" + f"collection__id={collection.id}"
+        return format_html('<a href="{}">{}</a>', url, collection.products_count)
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(products_count=Count("product"))
