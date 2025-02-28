@@ -58,6 +58,7 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
+    search_fields = ["title"]
     autocomplete_fields = ["collection"]
     prepopulated_fields = {"slug": ["title"]}
     actions = ["clear_inventory"]
@@ -94,7 +95,15 @@ class CustomerAdmin(admin.ModelAdmin):
     ordering = ["first_name", "last_name"]
 
 
+class OrderItemInline(admin.TabularInline):
+    model = models.OrderItem
+    autocomplete_fields = ["product"]
+    min_num = 1
+    extra = 0
+
+
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
+    inlines = [OrderItemInline]
     list_display = ["id", "placed_at", "customer"]
     autocomplete_fields = ["customer"]
