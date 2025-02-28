@@ -1,10 +1,26 @@
 from django.contrib import admin
 from . import models
+from django.db.models import Count
+
 
 # Register your models here.
-admin.site.register(models.Collection)
+@admin.register(models.Collection)
+class CollectionAdmin(admin.ModelAdmin):
+    list_display = ["title", "products_count"]
+    list_per_page = 10
 
-# admin.site.register(models.Product)
+    # This code below is make ~14 queries for each collection
+    # def products_count(self, collection: models.Collection):
+    #     return collection.product_set.count()
+
+    # This code is better, make only 1 query for all collections
+    # admin.display is a decorator that allows you to define a custom method on the admin class
+    @admin.display(ordering="products_count")
+    def products_count(self, collection: models.Collection):
+        return collection.products_count
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(products_count=Count("product"))
 
 
 @admin.register(models.Product)
@@ -32,6 +48,7 @@ class CustomerAdmin(admin.ModelAdmin):
     list_editable = ["membership"]
     ordering = ["first_name", "last_name"]
     list_per_page = 10
+
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
